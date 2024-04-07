@@ -16,10 +16,3 @@
         (else (enth? c (string->list s)))
   )
 )
-
-(define (entf2 o l)
-  (cond ((null? l) `())
-        ((equal? o (first l)) (entf2 o (rest l)))
-        (else (cons (first l) (entf2 o (rest l))))
-  )
-)
