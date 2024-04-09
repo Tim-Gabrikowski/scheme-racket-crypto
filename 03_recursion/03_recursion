@@ -23,3 +23,16 @@
         (else (cons (first l) (entf2 o (rest l))))
   )
 )
+
+(define (repl o n l)
+  (cond ((null? l) `())
+        ((equal? o (first l)) (cons n (repl o n (rest l))))
+        (else (cons (first l) (repl o n (rest l))))
+  )
+)
+
+(define (incr l)
+  (cond ((null? l) '())
+        (else (cons (string->symbol (string (integer->char (+ 1 (char->integer (string-ref (symbol->string (first l)) 0)))))) (incr (rest l))))
+  )
+)
