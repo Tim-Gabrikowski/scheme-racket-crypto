@@ -31,8 +31,39 @@
   )
 )
 
-(define (incr l)
+(define (incrSimple l)
   (cond ((null? l) '())
         (else (cons (string->symbol (string (integer->char (+ 1 (char->integer (string-ref (symbol->string (first l)) 0)))))) (incr (rest l))))
   )
 )
+(define (% a b) (modulo a b))
+
+(define (incrLint i n)
+  (+ (% (+ (- i 97) n) 26) 97)
+)
+(define (incrUint i n)
+   (+ (% (+ (- i 65) n) 26) 65)
+)
+(define (symbol->int s)
+  (char->integer (string-ref (symbol->string s) 0))
+)
+(define (int->symbol i)
+  (string->symbol (string (integer->char i)))
+)
+(define (incrCint c n)
+  (cond ((> c 96) (incrLint c n))
+        ((and (> c 64) (< c 97)) (incrUint c n))
+  )
+)
+(define (incr l n)
+  (cond ((null? l) '())
+        (else (cons (int->symbol (incrCint (symbol->int (first l)) n)) (incr (rest l) n)))
+  )
+)
+
+
+
+
+
+
+
