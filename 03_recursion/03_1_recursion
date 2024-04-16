@@ -1,3 +1,4 @@
+; 3.1.a
 (define (entf1 o l)
   (cond ((null? l) `())
         ((equal? o (first l)) o)
@@ -5,18 +6,22 @@
   )
 )
 
+; 3.1.b
 (define (enth? o l)
   (cond ((null? l) #f)
         ((equal? o (first l)) #t)
         (else (enth? o (rest l)))
   )
 )
+
+; 3.1.c
 (define (senth? c s)
   (cond ((null? s) (a))
         (else (enth? c (string->list s)))
   )
 )
 
+; 3.1.d
 (define (entf2 o l)
   (cond ((null? l) `())
         ((equal? o (first l)) (entf2 o (rest l)))
@@ -24,6 +29,7 @@
   )
 )
 
+; 3.1.e
 (define (repl o n l)
   (cond ((null? l) `())
         ((equal? o (first l)) (cons n (repl o n (rest l))))
@@ -31,11 +37,14 @@
   )
 )
 
+! 3.1.f
 (define (incrSimple l)
   (cond ((null? l) '())
         (else (cons (string->symbol (string (integer->char (+ 1 (char->integer (string-ref (symbol->string (first l)) 0)))))) (incr (rest l))))
   )
 )
+
+; 3.1.f Zusatz
 (define (% a b) (modulo a b))
 
 (define (incrLint i n)
