@@ -1,0 +1,7 @@
+; 3.2
+(define (entf o l r)
+  (cond ((null? l) r)
+        ((equal? o (first l)) (entf o (rest l) r))
+        (else (entf o (rest l) (append r (list (first l)))))
+  )
+)
