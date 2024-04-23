@@ -1,0 +1,15 @@
+; 3.3.1 (Same as 3.1.e)
+(define (repl o n l)
+  (cond ((null? l) `())
+        ((equal? o (first l)) (cons n (repl o n (rest l))))
+        (else (cons (first l) (repl o n (rest l))))
+  )
+)
+
+; 3.3.2
+(define (count e l s)
+  (cond ((null? l) s)
+        ((equal? (first l) e) (count e (rest l) (+ 1 s)))
+        (else (count e (rest l) s))
+  )
+)

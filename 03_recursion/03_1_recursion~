@@ -16,15 +16,8 @@
 
 ; 3.1.c
 (define (senth? c s)
-  (cond ((null? s) (#f))
+  (cond ((null? s) (a))
         (else (enth? c (string->list s)))
-  )
-)
-; 3.1.c (2)
-(define (senthr? c s)
-  (cond ((null? (string->list s)) #f)
-        ((equal? c (first (string->list s))) #t)
-        (else (senthr? c (list->string (rest (string->list s)))))
   )
 )
 
@@ -44,7 +37,7 @@
   )
 )
 
-; 3.1.f
+! 3.1.f
 (define (incrSimple l)
   (cond ((null? l) '())
         (else (cons (string->symbol (string (integer->char (+ 1 (char->integer (string-ref (symbol->string (first l)) 0)))))) (incr (rest l))))

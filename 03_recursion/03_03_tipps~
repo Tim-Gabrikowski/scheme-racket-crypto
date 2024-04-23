@@ -1,0 +1,7 @@
+; 3.3.1 (Same as 3.1.e)
+(define (repl o n l)
+  (cond ((null? l) `())
+        ((equal? o (first l)) (cons n (repl o n (rest l))))
+        (else (cons (first l) (repl o n (rest l))))
+  )
+)
