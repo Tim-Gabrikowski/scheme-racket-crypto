@@ -1,0 +1,26 @@
+(define (sfirst s) (string-ref s 0))
+
+(define (srest s) (list->string (rest (string->list s))))
+
+(define (slength s)
+  (cond ((null? (string->list s)) 0)
+        (else (+ 1 (slength (srest s))))
+  )
+)
+
+(define (lev a b)
+  (cond
+    ((= 0 (slength a)) (slength b))
+    ((= 0 (slength b)) (slength a))
+    ((equal? (sfirst a) (sfirst b)) (lev (srest a) (srest b)))
+    (else
+        (+ 1 (min
+              (lev (srest a) b)
+              (lev a (srest b))
+              (lev (srest a) (srest b))
+             )
+        )
+    )
+  )
+)
+
