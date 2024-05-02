@@ -1,0 +1,8 @@
+; 1.1 Bogenmaß -> Grad
+(define (rad->deg r)
+  (* r (/ 180 pi))
+)
+; 1.1 Grad -> Bogenmaß
+(define (deg->rad d)
+  (* d (/ pi 180))
+)
