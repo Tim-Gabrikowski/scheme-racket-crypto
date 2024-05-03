@@ -6,3 +6,8 @@
 (define (deg->rad d)
   (* d (/ pi 180))
 )
+
+; 1.2 (output in rad!)
+(define (arccos r)
+  (atan (/ (sqrt (- 1 (* r r))) r))
+)
