@@ -1,0 +1,9 @@
+; 2.1 Großkreisentfernung
+
+(define (calc pA pB dL)
+  (acos (+ (* (sin pA) (sin pB)) (* (* (cos pA) (cos pB)) (cos dL))))
+)
+
+(define (cord->dec a)
+  '()
+)

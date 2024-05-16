@@ -13,3 +13,32 @@
         (else (count e (rest l) s))
   )
 )
+
+; 3.3.3
+
+(define (addFunction la lb b a)
+  (cond ((null? la) a)
+        ((null? lb) (addFunction la b b a))
+        (else (addFunction (rest la) (rest lb) b (append a (list (+ (first la) (first lb))))))
+  )
+)
+
+(define (add la lb)
+  (addFunction la lb lb '())
+)
+
+; 3.3.5
+
+; (3.1.b)
+(define (enth? o l)
+  (cond ((null? l) #f)
+        ((equal? o (first l)) #t)
+        (else (enth? o (rest l)))
+  )
+)
+(define (suche la lb z)
+  (cond ((null? lb) z)
+        ((enth? (first lb) la) (suche la (rest lb) (+ z 1)))
+        (else (suche la (rest lb) z))
+  )
+)
