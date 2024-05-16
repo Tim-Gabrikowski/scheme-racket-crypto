@@ -3,7 +3,7 @@
 ; 2.1 Großkreisentfernung
 
 (define (calc pA pB dL)
-  (acos (+ (* (sin pA) (sin pB)) (* (* (cos pA) (cos pB)) (cos dL))))
+  (acos (+ (* (sin (deg->rad pA)) (sin (deg->rad pB))) (* (* (cos (deg->rad pA)) (cos (deg->rad pB))) (cos (deg->rad dL)))))
 )
 
 (define (cord->dec n d)
@@ -12,15 +12,10 @@
   )
 )
 
-(define (delta a b)
-  (cond ((> a b) (- a b))
-        (else (- b a))
-  )
-)
 (define (sec a) (first (rest a)))
 
 (define (distAB lA bA lB bB)
-  (calc (cord->dec (first bA) (sec bA)) (cord->dec (first bB) (sec bB)) (delta (cord->dec (first lA) (sec lA)) (cord->dec (first lA) (sec lA))))
+  (calc (cord->dec (first bA) (sec bA)) (cord->dec (first bB) (sec bB)) (- (cord->dec (first lB) (sec lB)) (cord->dec (first lA) (sec lA))))
 )
 
 (define (distanceAB lA bA lB bB)
