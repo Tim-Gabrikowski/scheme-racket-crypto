@@ -1,0 +1,26 @@
+(require racket/list)
+
+; Häufigkeitsanalyse - Counterlist ( (#\A) (#\B) ... (#\a) (#\b) ... )
+(define (createCounterList)
+  (append (build-list 26 (lambda (n) (list (integer->char (+ n 65)) 0)))
+          (build-list 26 (lambda (n) (list (integer->char (+ n 97)) 0)))
+  )
+)
+
+(define (countChar c count)
+  (list-update count
+               (index-where count (lambda (n) (cond ((equal? (first n) c) #t) (else #f))))
+               (lambda (n) (cons (first n) (list (+ 1 (second n)))))
+  )
+)
+
+; Häufigkeitsanalyse - Schritt
+(define (analyseStep text count)
+  (cond ((null? text) count)
+        (else (analyseStep (rest text) (countChar (first text) count)))
+  )
+)
+
+(define (analyse s)
+  (analyseStep (string->list s) (createCounterList))
+)
