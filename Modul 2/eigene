@@ -1,5 +1,0 @@
-Key -> md5 (-> 32 bytes)
-
-repeat md5 if ct > md5
-
-Each byte -> invert bits by pattern
