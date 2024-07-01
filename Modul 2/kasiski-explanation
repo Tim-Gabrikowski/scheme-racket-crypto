@@ -1,0 +1,58 @@
+Certainly! Let's break down the function step by step in simple terms:
+
+```racket
+(define (split-every-nth lst n)
+  (define (loop k acc)
+    (if (> k n)
+        (reverse acc)
+        (loop (add1 k) (cons (extract-nth-elements lst n k) acc))))
+  (loop 1 '()))
+```
+
+### What the function does:
+
+The function `split-every-nth` takes a list `lst` and a number `n`. It splits the list into `n` sublists, where each sublist contains elements that are `n` positions apart in the original list.
+
+### Key Parts:
+
+1. **`split-every-nth`:** This is the main function.
+   - `lst`: The input list to be split.
+   - `n`: The number indicating how often to pick elements for each sublist.
+
+2. **`loop`:** This is an inner function defined within `split-every-nth`. It's used to iterate over the range from 1 to `n` and build the result list.
+   - `k`: The current position in the range from 1 to `n`.
+   - `acc`: The accumulator list that stores the sublists being built.
+
+3. **Condition Check (`if (> k n) ...`):**
+   - If `k` (the current position) is greater than `n`, it means we have created all `n` sublists, so we return the accumulator list in the correct order by reversing it.
+
+4. **Recursion (`loop (add1 k) ...`):**
+   - If `k` is not greater than `n`, we continue to build the sublists.
+   - `(add1 k)`: Increases `k` by 1 for the next iteration.
+   - `(cons (extract-nth-elements lst n k) acc)`: Adds a new sublist to the accumulator. This new sublist is created by `extract-nth-elements`, which takes elements from `lst` that are `n` positions apart starting from the `k`-th element.
+
+5. **Initialization (`loop 1 '()`)**
+   - Starts the loop with `k` as 1 and an empty accumulator list `'()`.
+
+### What you need to define:
+
+To make the `split-every-nth` function work, you need to define the `extract-nth-elements` function. Here’s an example of how it might be defined:
+
+```racket
+(define (extract-nth-elements lst n k)
+  (define (helper l index result)
+    (if (or (empty? l) (< (length l) k))
+        (reverse result)
+        (helper (drop l n) (+ index n) (cons (list-ref l (sub1 k)) result))))
+  (helper lst k '()))
+```
+
+### How `extract-nth-elements` works:
+
+- It takes a list `lst`, a number `n`, and a starting position `k`.
+- It defines an inner helper function that iterates over the list, picking elements that are `n` positions apart starting from the `k`-th element.
+- The helper function builds up a result list, which it returns after reversing (to maintain the correct order).
+
+### Putting it all together:
+
+The `split-every-nth` function uses the `extract-nth-elements` function to build `n` sublists. Each sublist contains elements from the original list that are `n` positions apart, starting from different initial positions (1 through `n`). This results in a final list of sublists, each containing the appropriately spaced elements from the original list.
