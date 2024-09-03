@@ -1,11 +1,11 @@
 (require math/base)
 (require math/number-theory)
 
-(define maxP 29)
+(define maxP 4096)
 
 (define (% n m) (modulo n m))
 
-(define (calcSecr g p a)
+(define (calcPub g p a)
   (% (expt g a) p)
 )
 
@@ -26,4 +26,4 @@
 )
 
 (display "(p g a b A B Ka Kb)\n")
-(exec (lambda (p g a b) (list p g a b (calcSecr g p a) (calcSecr g p b) (calcKey p (calcSecr g p b) a) (calcKey p (calcSecr g p a) b))))
+(exec (lambda (p g a b) (list p g a b (calcPub g p a) (calcPub g p b) (calcKey p (calcPub g p b) a) (calcKey p (calcPub g p a) b))))
