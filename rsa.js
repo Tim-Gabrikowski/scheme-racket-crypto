@@ -1,6 +1,6 @@
 // Function to find greatest common divisor
 function gcd(a, b) {
-	while (b !== 0) {
+	while (b !== 0n) {
 		[a, b] = [b, a % b];
 	}
 	return a;
@@ -11,13 +11,13 @@ function modInverse(e, phi) {
 	let m0 = phi,
 		t,
 		q;
-	let x0 = 0,
-		x1 = 1;
-	if (phi === 1) return 0;
+	let x0 = 0n,
+		x1 = 1n;
+	if (phi === 1n) return 0n;
 
-	while (e > 1) {
+	while (e > 1n) {
 		// q is quotient
-		q = Math.floor(e / phi);
+		q = e / phi;
 		t = phi;
 
 		// phi is remainder now, process same as Euclid's algo
@@ -30,7 +30,7 @@ function modInverse(e, phi) {
 	}
 
 	// Make x1 positive
-	if (x1 < 0) {
+	if (x1 < 0n) {
 		x1 += m0;
 	}
 
@@ -44,7 +44,7 @@ function generatePrime(bits) {
 
 	while (true) {
 		const p = Math.floor(Math.random() * (max - min) + min);
-		if (isPrime(p)) return p;
+		if (isPrime(p)) return BigInt(p);
 	}
 }
 
@@ -64,75 +64,89 @@ function isPrime(num) {
 
 // RSA Key Generation
 function generateRSAKeys(bits) {
-	console.log("Generate Primes");
+	let start = Date.now();
+	//console.log("Generate first Prime");
 	// Generate two random prime numbers p and q
 	const p = generatePrime(bits / 2);
-	console.log("p", p);
+	// console.log("Generate second Prime");
 	const q = generatePrime(bits / 2);
-	console.log("q", q);
 
 	// Calculate n = p * q
 	const n = p * q;
 
 	// Calculate Euler's Totient function φ(n) = (p-1) * (q-1)
-	const phi = (p - 1) * (q - 1);
+	const phi = (p - 1n) * (q - 1n);
 
-	console.log("generate e");
+	// console.log("generate e");
 	// Choose e such that 1 < e < φ(n) and gcd(e, φ(n)) = 1
-	let e = 3;
-	while (gcd(e, phi) !== 1) {
-		e += 2;
+	let e = BigInt(3);
+	while (gcd(e, phi) !== 1n) {
+		e += 2n;
 	}
-	console.log("e", e);
 
-	console.log("calc d");
+	// console.log("calc d");
 	// Calculate d as the modular inverse of e mod φ(n)
 	const d = modInverse(e, phi);
-
-	console.log("d", d);
 
 	return {
 		publicKey: { n, e },
 		privateKey: { n, d },
+		timeTaken: Date.now() - start,
 	};
 }
 
 // RSA Encryption: Cipher = (message ^ e) mod n
 function encrypt(message, publicKey) {
 	const { n, e } = publicKey;
-	return modPow(message, e, n);
+	return modPow(BigInt(message), e, n);
 }
 
 // RSA Decryption: Message = (cipher ^ d) mod n
 function decrypt(cipher, privateKey) {
 	const { n, d } = privateKey;
-	return modPow(cipher, d, n);
+	return modPow(BigInt(cipher), d, n);
 }
 
 // Function for modular exponentiation: (base^exp) % mod
 function modPow(base, exp, mod) {
-	let result = 1;
+	let result = BigInt(1);
 	base = base % mod;
 
-	while (exp > 0) {
-		if (exp % 2 === 1) {
+	while (exp > 0n) {
+		if (exp % 2n === 1n) {
 			result = (result * base) % mod;
 		}
-		exp = Math.floor(exp / 2);
+		exp = exp / 2n;
 		base = (base * base) % mod;
 	}
 
 	return result;
 }
 
-// Example usage
-const { publicKey, privateKey } = generateRSAKeys(64);
-console.log("Public Key:", publicKey);
-console.log("Private Key:", privateKey);
+function main(bits = 16) {
+	// Example usage
+	const { publicKey, privateKey, timeTaken } = generateRSAKeys(bits);
+	console.log("Public Key:", publicKey);
+	console.log("Private Key:", privateKey);
 
-const message = 42; // Simple numeric message
-const cipher = encrypt(message, publicKey);
-console.log("Encrypted:", cipher);
+	const message = 111; // Simple numeric message
+	console.log("Message:", message);
 
-const decryptedMessage = decrypt(cipher, privateKey);
-console.log("Decrypted:", decryptedMessage);
+	const cipher = encrypt(message, publicKey);
+	console.log("Encrypted:", cipher);
+
+	const decryptedMessage = decrypt(cipher, privateKey);
+	console.log("Decrypted:", decryptedMessage);
+
+	console.log("Generaton took:", timeTaken, "ms", "\n");
+}
+
+module.exports = {
+	modPow,
+	generateRSAKeys,
+	decrypt,
+	encrypt,
+	main,
+};
+
+// const {modPow, generateRSAKeys, decrypt, encrypt, main} = require("./rsa.js");
