@@ -65,10 +65,10 @@ function isPrime(num) {
 // RSA Key Generation
 function generateRSAKeys(bits) {
 	let start = Date.now();
-	//console.log("Generate first Prime");
+	console.log("Generate first Prime");
 	// Generate two random prime numbers p and q
 	const p = generatePrime(bits / 2);
-	// console.log("Generate second Prime");
+	console.log("Generate second Prime");
 	const q = generatePrime(bits / 2);
 
 	// Calculate n = p * q
@@ -77,14 +77,14 @@ function generateRSAKeys(bits) {
 	// Calculate Euler's Totient function φ(n) = (p-1) * (q-1)
 	const phi = (p - 1n) * (q - 1n);
 
-	// console.log("generate e");
+	console.log("generate e");
 	// Choose e such that 1 < e < φ(n) and gcd(e, φ(n)) = 1
 	let e = BigInt(3);
 	while (gcd(e, phi) !== 1n) {
 		e += 2n;
 	}
 
-	// console.log("calc d");
+	console.log("calc d");
 	// Calculate d as the modular inverse of e mod φ(n)
 	const d = modInverse(e, phi);
 
@@ -141,12 +141,33 @@ function main(bits = 16) {
 	console.log("Generaton took:", timeTaken, "ms", "\n");
 }
 
+function returnTimes(sBits = 8, mBits = 16, incr = 1) {
+	let times = [];
+
+	for (let b = sBits; b <= mBits; b += incr) {
+		let keys = generateRSAKeys(b);
+		let t = {
+			bits: b,
+			time: keys.timeTaken,
+			/* keys: {
+				privateKey: keys.privateKey,
+				publicKey: keys.publicKey,
+			}, */
+		};
+		console.log("b:", b, "t:", t.time);
+		times.push(t);
+	}
+
+	return times;
+}
+
 module.exports = {
 	modPow,
 	generateRSAKeys,
 	decrypt,
 	encrypt,
 	main,
+	returnTimes,
 };
 
 // const {modPow, generateRSAKeys, decrypt, encrypt, main} = require("./rsa.js");
