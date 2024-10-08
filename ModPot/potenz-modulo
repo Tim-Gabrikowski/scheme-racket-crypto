@@ -1,0 +1,14 @@
+(define (% a b) (modulo a b))
+
+(define (potmod a b n)
+  (cond ((equal? b 0) 1)
+        (else (% (* (% a n) (% (potmod a (- b 1) n) n)) n ))
+  )
+)
+
+(define (potmodeff a b n)
+  (cond ((equal? b 0) 1)
+        ((equal? (% b 2) 0) (let ((e (potmodeff a (/ b 2) n))) (% (* e e) n)))
+        (else (% (* (% a n) (% (potmodeff a (- b 1) n) n)) n ))
+  )
+)

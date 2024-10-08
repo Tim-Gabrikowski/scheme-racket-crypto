@@ -1,0 +1,63 @@
+4.8.a:
+
+potmod (a b n):
+	if b = 0:
+		return 1
+	else:
+		e = potmod(a, b-1, n)
+		return ((a % n) * e) % n
+		
+		
+Die Potenz-Modulo Funktion nimmt die Basis a, den Exponenten b und n als Modulus. 
+Wenn der Exponent = 0 ist, wird 1 zurückgeliefert. (Denn a^0 = 1). 
+Andernfalls wird die Funktion rekursiv erneut aufgerufen und als Exponent b-1 übergeben. Dies geschieht solange bis der Exponent 0 ist, sprich die Abbruchbedingung erreicht ist.
+Im rekursiven Aufstieg werden dann die Ergebnisse der vorherigen Stufe mit dem Rest der basis (also a % n) multipliziert und auch davon der Rest berechnet, damit die Zahlen im Bereich 0 bis n-1 bleiben und nicht zu groß werden. Jener Rest wird dann in die nächste Stufe hinauf gereicht. 
+		
+		
+4.8.b:
+
+Der Algorithmus ist durch den rekursiven Abstieg sehr Speicheraufwendig und daher nicht effizient. Auch führt er immerwieder die Rechnung a%n aus und multipliziert mit jenem Rest. Dies ist auch nicht sonderlich effizient und kann vereinfacht werden. Auch ein Entrekursiver Ansatz würde die Funktion verbessern.
+
+4.8.c:
+
+potmod2 (a, b, n):
+	if b = 0:
+		return 1
+	else:
+		e = potmod2(a, b-1, n)
+		return a * (e % n)
+		
+start (a, b, n):
+	return potmod2(a % n, b n) % n
+	
+4.8.d:
+
+Bei der potmod Funktion werden die Zwischenergebnisse immer wieder verkleinert (modulo n). Dies resultiert zwar in mehr Berechnungen, aber dafür weniger Multiplikationen mit großen Zahlen und einer effizienteren Speichernutzung als bei der potmod2 Funktion. Hier werden die zwischenergebnisse nur teilweise zwischendurch verringert und es finden viele Multiplikationen mit großen Zahlen statt. Vorallem wenn die Basis sehr groß sind. 
+
+4.8.e:
+
+Erster Ansatz: Potenzgesetz: 
+(a^b mod n) = (a^(b/2) mod n)^2 mod n
+
+Daraus folgt der Ansatz: Wenn der Exponent gerade ist, quadriert man das Ergebnis und rechnet mit dem halben Exponenten weiter. Wenn der Exponent ungerade ist, multipliziert man mit der Basis und rechnet den Exponenten wie gewohnt -1 für den nächsten Durchlauf.
+
+potmodeff (a b n):
+	if b = 0:
+		return 1
+	elseif (b % 2) = 0:
+		e = potmodeff(a, b/2, n)
+		return (e*e) % n
+	else:
+		e = potmodeff(a, b-1, n)
+		return ((a % n) * e) % n
+		
+Dadurch wird der rekursive Abstieg verkleinert und ist nicht so tief, da weniger Operationen ausgeführt werden.
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+(define (potenz-modulo a b n)
+(cond ((equal? b 0) 1)
+(else (modulo (* (modulo a n)
+(modulo (potenz-modulo a (- b 1) n)
+n))
+n))))
