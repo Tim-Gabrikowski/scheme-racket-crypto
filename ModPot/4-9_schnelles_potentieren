@@ -1,0 +1,39 @@
+(define (% a b) (modulo a b))
+
+(define (fastpot_ans ai bi)
+  (let (
+        (e (cond ((equal? (% bi 2) 1) ai) (else 1)))
+        (b (/ (cond ((equal? (% bi 2) 1) (- bi 1)) (else bi)) 2))
+        (m (* ai ai))
+       )
+       (fastpot_inner e m b)
+  )
+)
+
+(define (fastpot_ans_inner e m b)
+  (cond ((<= b 0) e)
+        (else (fastpot_inner (* e m) m (- b 1)))
+  )
+)
+
+(define (fastpot a b)
+  (fastpot_inner 1 a b)
+)
+
+(define (fastpot_inner e m b)
+  (cond ((<= b 0) e)
+        ((equal? (% b 2) 1) (fastpot_inner (* e m) m (- b 1)))
+        (else (fastpot_inner e (* m m) (/ b 2)))
+  )
+)
+
+(define (fastmodpot a b n)
+  (fastmodpot_inner 1 a b n)
+)
+
+(define (fastmodpot_inner e m b n)
+  (cond ((<= b 0) e)
+        ((equal? (% b 2) 1) (fastmodpot_inner (% (* e m) n) m (- b 1)) n)
+        (else (fastmodpot_inner e (% (* m m) n) (/ b 2)) n)
+  )
+)
